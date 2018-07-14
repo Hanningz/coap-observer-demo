@@ -1,6 +1,6 @@
 package server;
 
-import server.customized_resources.ObserverableResource;
+import server.customized_resources.ObservableResource;
 import org.eclipse.californium.core.CoapServer;
 
 import java.util.concurrent.Executors;
@@ -9,7 +9,8 @@ public class Server {
     static public void main(String[] args) {
         CoapServer server = new CoapServer();
 
-        ObserverableResource observerable = new ObserverableResource("obs");
+        // ObservableResource是CoapResource的一个子类
+        ObservableResource observerable = new ObservableResource("obs");
 
         server.add(observerable);
 

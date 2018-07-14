@@ -9,17 +9,21 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ObserverableResource extends CoapResource {
+public class ObservableResource extends CoapResource {
+
+    /**
+     * 一个可观察（Observable）的资源类，每5秒向观察者推送一次当前时间
+     */
 
     private String currentTimeString;
-
     static final private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public ObserverableResource(String name) {
+    public ObservableResource(String name) {
+
         super(name);
 
-        setObservable(true);
-        setObserveType(CoAP.Type.CON);
+        setObservable(true);    // 设定为可观察模式
+        setObserveType(CoAP.Type.CON);  // 将观察的连接类型设为CON
 
         Timer timer;
         timer = new Timer();
@@ -27,9 +31,9 @@ public class ObserverableResource extends CoapResource {
             @Override
             public void run() {
                 resetCurrentTime();
-                changed();
+                changed();  // 更新推送
             }
-        }, 0, 5000);
+        }, 0, 5000);    // 开启计时器，每5秒更新一次推送
     }
 
     private void resetCurrentTime() {
@@ -39,7 +43,6 @@ public class ObserverableResource extends CoapResource {
 
     @Override
     public void handleGET(CoapExchange exchange) {
-        exchange.setMaxAge(5);
         exchange.respond(currentTimeString);
     }
 
